@@ -5,6 +5,10 @@ import { authUser } from '../features/auth/authSlice'
 const Home = () => {
   const user = useSelector(authUser)
 
+  useEffect(() => {
+    console.log(user);
+  }, [user])
+
   if (user) {
     return (
       <div>

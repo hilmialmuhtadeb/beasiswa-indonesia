@@ -1,4 +1,4 @@
-import { signInWithEmailAndPassword } from "firebase/auth";
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, updateProfile } from "firebase/auth";
 import { auth } from "./firebase";
 
 function isAccessTokenExist() {
@@ -16,14 +16,28 @@ function putAccessToken(accessToken) {
 async function login({ email, password }) {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password)
-    putAccessToken(userCredential.user.accessToken)
-    return userCredential.user
+    const user = userCredential.user
+    putAccessToken(user.accessToken)
+    return user
+  } catch (error) {
+    console.log(error)
+  }
+}
+
+async function register({ email, password, name }) {
+  try {
+    await createUserWithEmailAndPassword(auth, email, password)
+    await updateProfile(auth.currentUser, { displayName: name })
+    const user = auth.currentUser
+    putAccessToken(user.accessToken)
+    return user
   } catch (error) {
     console.log(error)
   }
 }
 
 export {
+  register,
   login,
   isAccessTokenExist
 }
