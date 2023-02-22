@@ -1,17 +1,26 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import { Link } from 'react-router-dom'
+import { Link, useNavigate } from 'react-router-dom'
 import { login } from '../util/auth'
 import { useInput } from '../util/hooks'
 
 const LoginForm = () => {
   const [email, onEmailChange] = useInput('')
   const [password, onPasswordChange] = useInput('')
+
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   async function loginHandler() {
     const user = await login({ email, password })
     dispatch({ type: 'auth/setUser', payload: user })
+
+    if (user.email === 'admin@beasiswa-indonesia.com') {
+      dispatch({ type: 'auth/setIsAdmin', payload: true })
+      return navigate('/dashboard')
+    }
+    
+    return navigate('/')
   }
 
   return (

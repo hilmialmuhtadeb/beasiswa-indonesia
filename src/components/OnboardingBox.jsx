@@ -8,7 +8,7 @@ const OnboardingBox = () => {
   const pathname = location.pathname.split('/').at(-1)
   
   return (
-    <div className='h-screen flex items-center bg-gray-200 '>
+    <div className='h-screen flex items-center bg-gray-200'>
       <div className="w-full lg:w-3/4 h-5/6 grid grid-cols-2 mx-auto">
         <div className="bg-blue-600 rounded-l-lg shadow-lg">
           <div className="flex h-full flex-col justify-center">

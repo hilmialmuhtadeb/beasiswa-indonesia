@@ -12,10 +12,10 @@ export const authSlice = createSlice({
     },
     setIsAdmin: (state, action) => {
       state.isAdmin = action.payload;
-    }
+    },
   },
 });
 
 export const authUser = (state) => state.auth.user;
-export const IsAdmin = (state) => state.auth.isAdmin;
+export const isAdmin = (state) => state.auth.isAdmin;
 export default authSlice.reducer;
