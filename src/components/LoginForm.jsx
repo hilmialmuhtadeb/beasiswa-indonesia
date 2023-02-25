@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
 import { Link, useNavigate } from 'react-router-dom'
-import { login } from '../util/auth'
+import { getUserFromDecodeToken, login } from '../util/auth'
 import { useInput } from '../util/hooks'
 
 const LoginForm = () => {
@@ -12,7 +12,8 @@ const LoginForm = () => {
   const navigate = useNavigate()
 
   async function loginHandler() {
-    const user = await login({ email, password })
+    await login({ email, password })
+    const user = getUserFromDecodeToken()
     dispatch({ type: 'auth/setUser', payload: user })
 
     if (user.email === 'admin@beasiswa-indonesia.com') {

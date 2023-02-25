@@ -1,24 +1,22 @@
 import React, { useEffect } from 'react'
-import { useLocation } from 'react-router-dom'
-import Navbar from './components/Navbar'
+import { useDispatch } from 'react-redux'
+import { getUserFromDecodeToken } from './util/auth'
 import Router from './routes/Router'
 
 const App = () => {
-  const pagesPathWithoutNavbar = ['login', 'register']
-  const location = useLocation()
-  const pathname = location.pathname.split('/').at(-1)
-  
-  if (pagesPathWithoutNavbar.includes(pathname)) {
-    return (
-      <div>
-        <Router />
-      </div>
-    )
-  }
+  const dispatch = useDispatch()
+
+  useEffect(() => {
+    const user = getUserFromDecodeToken()
+    dispatch({ type: 'auth/setUser', payload: user })
+
+    if (user?.email === 'admin@beasiswa-indonesia.com') {
+      dispatch({ type: 'auth/setIsAdmin', payload: true })
+    }
+  }, [])
 
   return (
     <div>
-      <Navbar />
       <Router />
     </div>
   )

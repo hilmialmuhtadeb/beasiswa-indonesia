@@ -1,4 +1,5 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
+import jwtDecode from "jwt-decode";
 import { auth } from "./firebase";
 
 function isAccessTokenExist() {
@@ -32,9 +33,7 @@ async function register({ email, password, name }) {
 async function login({ email, password }) {
   try {
     const userCredential = await signInWithEmailAndPassword(auth, email, password)
-    const user = userCredential.user
-    putAccessToken(user.accessToken)
-    return user
+    putAccessToken(userCredential.user.accessToken)
   } catch (error) {
     console.log(error)
   }
@@ -45,9 +44,19 @@ async function logout() {
   removeAccessToken()
 }
 
+function getUserFromDecodeToken() {
+  const accessToken = getAccessToken()
+  if (!accessToken) {
+    return null
+  }
+  const decodedToken = jwtDecode(accessToken)
+  return decodedToken
+}
+
 export {
   register,
   login,
   logout,
-  isAccessTokenExist
+  isAccessTokenExist,
+  getUserFromDecodeToken
 }
