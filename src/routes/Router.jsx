@@ -12,10 +12,6 @@ import ManageRegistration from '../pages/admin/ManageRegistration'
 const Router = () => {
   const isAdmin = useSelector(state => state.auth.isAdmin)
 
-  useEffect(() => {
-    console.log(isAdmin)
-  }, [isAdmin])
-
   function adminRoutes() {
     return (
       <>

@@ -1,7 +1,19 @@
 import React, { useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import { useNavigate } from 'react-router-dom'
 import Navbar from '../components/Navbar'
+import { authUser } from '../features/auth/authSlice'
 
 const Home = () => {
+  const user = useSelector(authUser)
+  const navigate = useNavigate()
+
+  useEffect(() => {
+    if (user?.email === 'admin@beasiswa-indonesia.com') {
+      navigate('/dashboard')
+    }
+  }, [user])
+  
   return (
     <>
       <Navbar />

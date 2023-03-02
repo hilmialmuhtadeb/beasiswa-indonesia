@@ -1,10 +1,67 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import Layout from '../../components/admin/Layout'
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
+import { faEye, faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
+import { getAllScholarships } from '../../features/scholarship/scholarshipApi';
 
 const ManageScholarship = () => {
+  const [scholarships, setScholarships] = useState([])
+  
+  useEffect(() => {
+    getAllScholarships()
+      .then(res => {
+        setScholarships(res)
+      })
+  }, [])
+
+  if (!scholarships) return <div>Loading...</div>
+  
   return (
     <Layout>
-      <h1>Manage Beasiswa</h1>
+      <div className='p-8'>
+        <h1 className='text-2xl font-bold mb-4'>Beasiswa</h1>
+        <button className='bg-blue-500 text-white text-sm px-2 py-1 rounded'>Tambah Beasiswa</button>
+        <div className="my-8 overflow-x-auto border-x border-t">
+          <table className="table-auto w-full">
+              <thead className="border-b">
+                <tr className="bg-gray-100">
+                    <th className="text-left p-2 font-bold">
+                      Nama
+                    </th>
+                    <th className="text-left p-2 font-bold">
+                      Penyelenggara
+                    </th>
+                    <th className="text-left p-2 font-bold text-center">
+                      Aksi
+                    </th>
+                </tr>
+              </thead>
+              <tbody>
+                { scholarships.map(scholarship => (
+                  <tr className="border-b hover:bg-gray-50">
+                      <td className="p-2">
+                        {scholarship.title}
+                      </td>
+                      <td className="p-2">
+                        {scholarship.slug}
+                      </td>
+                      <td className="p-2 text-center flex justify-center text-sm text-white">
+                        <button className='bg-green-500 p-2 rounded mr-2'>
+                          <FontAwesomeIcon icon={faEye} />
+                        </button>
+                        <button className='bg-yellow-500 p-2 rounded mr-2'>
+                          <FontAwesomeIcon icon={faPen} />
+                        </button>
+                        <button className='bg-red-500 p-2 rounded'>
+                          <FontAwesomeIcon icon={faTrash} />
+                        </button>
+                      </td>
+                  </tr>
+                ))}
+              </tbody>
+          </table>
+        </div>
+      </div>
     </Layout>
   )
 }

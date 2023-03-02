@@ -1,19 +1,22 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
-import { faTableColumns, faArrowRightFromBracket, faChevronLeft } from '@fortawesome/free-solid-svg-icons';
+import { faTableColumns, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { faUser, faBuilding } from '@fortawesome/free-regular-svg-icons';
 import { logout } from '../../util/auth';
 import { useDispatch } from 'react-redux';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link, useLocation, useNavigate } from 'react-router-dom';
 
 const Sidebar = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
+  const location = useLocation()
+
+  const pathname = location.pathname.split('/').at(-1)
   
   const Menus = [
-    { title: "Dashboard", src: faTableColumns, path: "/dashboard" },
-    { title: "Pendaftaran", src: faUser, gap: true, path: "/admin/registration" },
-    { title: "Beasiswa ", src: faBuilding, path: "/admin/scholarships" },
+    { title: "Dashboard", src: faTableColumns, path: "/dashboard", name: "dashboard" },
+    { title: "Pendaftaran", src: faUser, gap: true, path: "/admin/registration", name: "registration" },
+    { title: "Beasiswa ", src: faBuilding, path: "/admin/scholarships", name: "scholarships" },
   ];
 
   async function logoutHandler() {
@@ -30,14 +33,14 @@ const Sidebar = () => {
         </div>
         <ul className="pt-6">
           {Menus.map((Menu, index) => (
-            <Link to={Menu.path}>
-              <li key={index} className="flex rounded-md p-2 cursor-pointer hover:bg-blue-800 text-gray-100 text-sm items-center gap-x-4 mb-4">
+            <Link key={index} to={Menu.path}>
+              <li className={`flex rounded-md px-4 py-2 cursor-pointer hover:bg-blue-800 text-gray-100 text-sm items-center gap-x-4 mb-4${ pathname === Menu.name ? ' bg-blue-800' : '' }`}>
                 <FontAwesomeIcon icon={Menu.src} />
                 <span className='origin-left duration-200'>{Menu.title}</span>
               </li>
             </Link>
           ))}
-            <li key='logout' className="flex rounded-md p-2 cursor-pointer hover:bg-blue-800 text-gray-100 text-sm items-center gap-x-4 mt-12" onClick={logoutHandler}>
+            <li key='logout' className="flex rounded-md px-4 py-2 cursor-pointer hover:bg-blue-800 text-gray-100 text-sm items-center gap-x-4 mt-12" onClick={logoutHandler}>
               <FontAwesomeIcon icon={faArrowRightFromBracket} />
               <span className='origin-left duration-200'>Logout</span>
             </li>
