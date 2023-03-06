@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React from 'react'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faTableColumns, faArrowRightFromBracket } from '@fortawesome/free-solid-svg-icons';
 import { faUser, faBuilding } from '@fortawesome/free-regular-svg-icons';
@@ -11,7 +11,7 @@ const Sidebar = () => {
   const navigate = useNavigate()
   const location = useLocation()
 
-  const pathname = location.pathname.split('/').at(-1)
+  const pathname = location.pathname.split('/')
   
   const Menus = [
     { title: "Dashboard", src: faTableColumns, path: "/dashboard", name: "dashboard" },
@@ -34,7 +34,7 @@ const Sidebar = () => {
         <ul className="pt-6">
           {Menus.map((Menu, index) => (
             <Link key={index} to={Menu.path}>
-              <li className={`flex rounded-md px-4 py-2 cursor-pointer hover:bg-blue-800 text-gray-100 text-sm items-center gap-x-4 mb-4${ pathname === Menu.name ? ' bg-blue-800' : '' }`}>
+              <li className={`flex rounded-md px-4 py-2 cursor-pointer hover:bg-blue-800 text-gray-100 text-sm items-center gap-x-4 mb-4${ pathname.includes(Menu.name) ? ' bg-blue-800' : '' }`}>
                 <FontAwesomeIcon icon={Menu.src} />
                 <span className='origin-left duration-200'>{Menu.title}</span>
               </li>

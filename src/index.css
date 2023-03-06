@@ -18,3 +18,8 @@ code {
   font-family: source-code-pro, Menlo, Monaco, Consolas, 'Courier New',
     monospace;
 }
+
+.description ol {
+  list-style: decimal;
+  padding-left: 1rem;
+}

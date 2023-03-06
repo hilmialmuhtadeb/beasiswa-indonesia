@@ -8,6 +8,8 @@ import OnboardingBox from '../components/OnboardingBox'
 import Profile from '../pages/Profile'
 import ManageScholarship from '../pages/admin/ManageScholarship'
 import ManageRegistration from '../pages/admin/ManageRegistration'
+import AddScholarship from '../pages/admin/AddScholarship'
+import DetailScholarships from '../pages/DetailScholarships'
 
 const Router = () => {
   const isAdmin = useSelector(state => state.auth.isAdmin)
@@ -17,6 +19,7 @@ const Router = () => {
       <>
         <Route path='/dashboard' element={<Dashboard />} />
         <Route path='/admin/scholarships' element={<ManageScholarship />} />
+        <Route path='/admin/scholarships/add' element={<AddScholarship />} />
         <Route path='/admin/registration' element={<ManageRegistration />} />
       </>
     )
@@ -25,11 +28,12 @@ const Router = () => {
   return (
     <Routes>
       { isAdmin && adminRoutes() }
-      <Route path='/login' element={<OnboardingBox />} />
-      <Route path='/register' element={<OnboardingBox />} />
       <Route path='/' exact element={<Home />} />
       <Route path='/scholarships' element={<Scholarships />} />
+      <Route path='/scholarships/:slug' element={<DetailScholarships />} />
       <Route path='/profile' element={<Profile />} />
+      <Route path='/login' element={<OnboardingBox />} />
+      <Route path='/register' element={<OnboardingBox />} />
     </Routes>
   )
 }

@@ -3,6 +3,7 @@ import Layout from '../../components/admin/Layout'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { getAllScholarships } from '../../features/scholarship/scholarshipApi';
+import { Link } from 'react-router-dom';
 
 const ManageScholarship = () => {
   const [scholarships, setScholarships] = useState([])
@@ -20,7 +21,9 @@ const ManageScholarship = () => {
     <Layout>
       <div className='p-8'>
         <h1 className='text-2xl font-bold mb-4'>Beasiswa</h1>
-        <button className='bg-blue-500 text-white text-sm px-2 py-1 rounded'>Tambah Beasiswa</button>
+        <Link to="/admin/scholarships/add">
+          <button className='bg-blue-500 text-white text-sm px-2 py-1 rounded'>Tambah Beasiswa</button>
+        </Link>
         <div className="my-8 overflow-x-auto border-x border-t">
           <table className="table-auto w-full">
               <thead className="border-b">
@@ -38,7 +41,7 @@ const ManageScholarship = () => {
               </thead>
               <tbody>
                 { scholarships.map(scholarship => (
-                  <tr className="border-b hover:bg-gray-50">
+                  <tr key={scholarship.title} className="border-b hover:bg-gray-50">
                       <td className="p-2">
                         {scholarship.title}
                       </td>
