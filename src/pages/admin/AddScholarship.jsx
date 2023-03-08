@@ -3,7 +3,7 @@ import Layout from '../../components/admin/Layout'
 import { Editor } from 'react-draft-wysiwyg'
 import { useInput } from '../../util/hooks'
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { addScholarship } from '../../features/scholarship/scholarshipApi';
+import { addScholarship, addScholarshipWithImage } from '../../features/scholarship/scholarshipApi';
 import { convertToRaw } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
 
@@ -11,9 +11,17 @@ const AddScholarship = () => {
   const [title, onTitleChange] = useInput('')
   const [description, setDescription] = useState('')
   const [editorState, setEditorState] = useState('')
+  const [image, setImage] = useState(null)
 
   function submitHandler() {
-    addScholarship({title, description})
+    if (image) {
+      return addScholarshipWithImage({title, description, image})
+    }
+    return addScholarship({title, description})
+  }
+
+  function handleFileChange(event) {
+    setImage(event.target.files[0]);
   }
   
   return (
@@ -21,6 +29,10 @@ const AddScholarship = () => {
       <div className='p-8'>
         <h1 className='font-bold text-xl mb-8'>Tambah Beasiswa Baru</h1>
         <div className="w-1/2">
+          <div className="mb-4">
+            <label htmlFor="image" className='block mb-2'>Poster</label>
+            <input type="file" id="image" onChange={handleFileChange} accept="/image/*" />
+          </div>
           <div className="mb-4">
             <label htmlFor="title" className='block mb-2'>Nama</label>
             <input type="text" id='title' value={title} onChange={onTitleChange} className='block border border-gray-400 rounded p-1 w-full' />

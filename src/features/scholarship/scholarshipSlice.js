@@ -7,7 +7,7 @@ export const scholarshipSlice = createSlice({
   },
   reducers: {
     setScholarships: (state, action) => {
-      state.user = action.payload;
+      state.scholarships = action.payload;
     }
   },
 });
