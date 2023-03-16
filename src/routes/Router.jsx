@@ -10,6 +10,7 @@ import ManageScholarship from '../pages/admin/ManageScholarship'
 import ManageRegistration from '../pages/admin/ManageRegistration'
 import AddScholarship from '../pages/admin/AddScholarship'
 import DetailScholarships from '../pages/DetailScholarships'
+import EditProfile from '../pages/EditProfile'
 
 const Router = () => {
   const isAdmin = useSelector(state => state.auth.isAdmin)
@@ -32,6 +33,7 @@ const Router = () => {
       <Route path='/scholarships' element={<Scholarships />} />
       <Route path='/scholarships/:slug' element={<DetailScholarships />} />
       <Route path='/profile' element={<Profile />} />
+      <Route path='/profile/edit' element={<EditProfile />} />
       <Route path='/login' element={<OnboardingBox />} />
       <Route path='/register' element={<OnboardingBox />} />
     </Routes>

@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import Layout from '../../components/admin/Layout'
 import { Editor } from 'react-draft-wysiwyg'
-import { useInput } from '../../util/hooks'
+import { useInput, useInputFile } from '../../util/hooks'
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { addScholarship, addScholarshipWithImage } from '../../features/scholarship/scholarshipApi';
 import { convertToRaw } from 'draft-js';
@@ -11,17 +11,13 @@ const AddScholarship = () => {
   const [title, onTitleChange] = useInput('')
   const [description, setDescription] = useState('')
   const [editorState, setEditorState] = useState('')
-  const [image, setImage] = useState(null)
+  const [image, onImageChange] = useInputFile(null)
 
   function submitHandler() {
     if (image) {
       return addScholarshipWithImage({title, description, image})
     }
     return addScholarship({title, description})
-  }
-
-  function handleFileChange(event) {
-    setImage(event.target.files[0]);
   }
   
   return (
@@ -31,7 +27,7 @@ const AddScholarship = () => {
         <div className="w-1/2">
           <div className="mb-4">
             <label htmlFor="image" className='block mb-2'>Poster</label>
-            <input type="file" id="image" onChange={handleFileChange} accept="/image/*" />
+            <input type="file" id="image" onChange={onImageChange} accept="/image/*" />
           </div>
           <div className="mb-4">
             <label htmlFor="title" className='block mb-2'>Nama</label>

@@ -8,4 +8,12 @@ function useInput(initialValue) {
   return [value, onChange];
 }
 
-export { useInput };
+function useInputFile(initialValue) {
+  const [value, setValue] = useState(initialValue);
+  const onChange = (e) => {
+    setValue(e.target.files[0]);
+  };
+  return [value, onChange];
+}
+
+export { useInput, useInputFile };

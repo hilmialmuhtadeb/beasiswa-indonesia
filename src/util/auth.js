@@ -1,5 +1,6 @@
 import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, updateProfile } from "firebase/auth";
 import jwtDecode from "jwt-decode";
+import { addUser } from "../features/auth/userApi";
 import { auth } from "./firebase";
 
 function isAccessTokenExist() {
@@ -23,6 +24,7 @@ async function register({ email, password, name }) {
     await createUserWithEmailAndPassword(auth, email, password)
     const user = auth.currentUser
     await updateProfile(user, { displayName: name })
+    await addUser(user)
     putAccessToken(user.accessToken)
     return user
   } catch (error) {

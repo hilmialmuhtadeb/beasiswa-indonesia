@@ -5,10 +5,14 @@ export const authSlice = createSlice({
   initialState: {
     user: null,
     isAdmin: false,
+    profile: null
   },
   reducers: {
     setUser: (state, action) => {
       state.user = action.payload;
+    },
+    setUserProfile: (state, action) => {
+      state.profile = action.payload;
     },
     setIsAdmin: (state, action) => {
       state.isAdmin = action.payload;

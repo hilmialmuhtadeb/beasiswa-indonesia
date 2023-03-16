@@ -1,9 +1,10 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { useLocation } from 'react-router-dom'
-import Navbar from '../components/Navbar'
 import { addApplication } from '../features/application/applicationApi'
 import { getScholarshipBySlug } from '../features/scholarship/scholarshipApi'
+import Navbar from '../components/Navbar'
+import defaultImage from '../assets/images/beasiswa.jpg'
 import '../index.css'
 
 const DetailScholarships = () => {
@@ -42,7 +43,11 @@ const DetailScholarships = () => {
           <div className="description grow" dangerouslySetInnerHTML={{ __html: scholarship.description }} />
           <div className="w-1/3">
             <div className='w-full mb-2'>
-              { scholarship.image && <img src={scholarship.image} alt="poster" className='w-full h-full object-cover' /> }
+              { scholarship.image ? (
+                <img src={scholarship.image} alt="poster" className='w-full h-full object-cover' /> 
+              ) : (
+                <img src={defaultImage} alt="poster" className='w-full h-full object-cover' /> 
+              )}
             </div>
             <button className='bg-green-300 w-full py-1 text-sm rounded' onClick={applyHandler}>Daftar Beasiswa</button>
           </div>
