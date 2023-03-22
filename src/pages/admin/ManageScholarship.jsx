@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react'
 import Layout from '../../components/admin/Layout'
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
-import { getAllScholarships } from '../../features/scholarship/scholarshipApi';
+import { deleteScholasrhip, getAllScholarships } from '../../features/scholarship/scholarshipApi';
 import { Link } from 'react-router-dom';
 
 const ManageScholarship = () => {
@@ -52,10 +52,12 @@ const ManageScholarship = () => {
                         <button className='bg-green-500 p-2 rounded mr-2'>
                           <FontAwesomeIcon icon={faEye} />
                         </button>
-                        <button className='bg-yellow-500 p-2 rounded mr-2'>
-                          <FontAwesomeIcon icon={faPen} />
-                        </button>
-                        <button className='bg-red-500 p-2 rounded'>
+                        <Link to={`/admin/scholarships/${scholarship.slug}/edit`}>
+                          <button className='bg-yellow-500 p-2 rounded mr-2'>
+                            <FontAwesomeIcon icon={faPen} />
+                          </button>
+                        </Link>
+                        <button className='bg-red-500 p-2 rounded' onClick={() => deleteScholasrhip(scholarship.slug)}>
                           <FontAwesomeIcon icon={faTrash} />
                         </button>
                       </td>

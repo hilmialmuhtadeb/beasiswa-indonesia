@@ -39,7 +39,7 @@ const Profile = () => {
         <div className='lg:w-2/3 mx-auto px-8 py-4'>
           <div className='flex mb-8 items-center justify-between'>
             <div className='flex items-center'>
-              <img src={profile.avatar ? profile.avatar : defaultAvatar} alt='avatar' className='w-32 h-32 rounded-full' />
+              <img src={profile.avatar ? profile.avatar : defaultAvatar} alt='avatar' className='w-32 h-32 rounded-full object-cover' />
               <div className="ml-8">
                 <h1 className='text-2xl font-bold'>{profile.name}</h1>
                 <p>{profile.email}</p>

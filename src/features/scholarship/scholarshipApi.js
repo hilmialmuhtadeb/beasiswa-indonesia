@@ -1,5 +1,5 @@
-import { addDoc, collection, getDocs, query, where } from "firebase/firestore";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { addDoc, collection, deleteDoc, doc, getDocs, query, where } from "firebase/firestore";
+import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { db, storage } from "../../util/firebase"
 
 async function addScholarship(scholarship) {
@@ -34,6 +34,7 @@ async function addScholarshipWithImage(scholarship) {
         const payload = {
           ...scholarship,
           image: downloadURL,
+          imagePath: `scholarship/${date}-${image.name}`,
           slug: scholarship.title.toLowerCase().replace(/ /g, "-"),
         }
         const docRef = await addDoc(collection(db, "scholarship"), payload);
@@ -59,10 +60,19 @@ async function getScholarshipBySlug(slug) {
   await getDocs(query(collection(db, "scholarship"), where("slug", "==", slug)))
     .then(querySnapshot => {
       querySnapshot.forEach(doc => {
-        scholarship = doc.data()
+        scholarship = doc
       })
     })
   return scholarship
+}
+
+async function deleteScholasrhip(slug) {
+  const scholarshipDoc = await getScholarshipBySlug(slug)
+  const scholarship = scholarshipDoc.data()
+  if (scholarshipDoc) {
+    await deleteDoc(doc(db, "scholarship", scholarshipDoc.id))
+    await deleteObject(ref(storage, scholarship.imagePath))
+  }
 }
 
 export {
@@ -70,4 +80,5 @@ export {
   getScholarshipBySlug,
   addScholarship,
   addScholarshipWithImage,
+  deleteScholasrhip,
 }

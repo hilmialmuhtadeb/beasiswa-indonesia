@@ -7,10 +7,12 @@ import Scholarships from '../pages/Scholarships'
 import OnboardingBox from '../components/OnboardingBox'
 import Profile from '../pages/Profile'
 import ManageScholarship from '../pages/admin/ManageScholarship'
-import ManageRegistration from '../pages/admin/ManageRegistration'
 import AddScholarship from '../pages/admin/AddScholarship'
 import DetailScholarships from '../pages/DetailScholarships'
 import EditProfile from '../pages/EditProfile'
+import EditScholarship from '../pages/admin/EditScholarship'
+import ManageApplication from '../pages/admin/ManageApplication'
+import DetailApplication from '../pages/admin/DetailApplication'
 
 const Router = () => {
   const isAdmin = useSelector(state => state.auth.isAdmin)
@@ -20,8 +22,10 @@ const Router = () => {
       <>
         <Route path='/dashboard' element={<Dashboard />} />
         <Route path='/admin/scholarships' element={<ManageScholarship />} />
+        <Route path='/admin/scholarships/:slug/edit' element={<EditScholarship />} />
         <Route path='/admin/scholarships/add' element={<AddScholarship />} />
-        <Route path='/admin/registration' element={<ManageRegistration />} />
+        <Route path='/admin/applications/:id' element={<DetailApplication />} />
+        <Route path='/admin/registration' element={<ManageApplication />} />
       </>
     )
   }

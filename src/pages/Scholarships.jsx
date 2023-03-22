@@ -24,6 +24,18 @@ const Scholarships = () => {
   }, [])
 
   if (!scholarships) return <div>Loading...</div>
+
+  if (scholarships.length === 0) return (
+    <>
+      <Navbar />
+      <div className="w-3/4 mx-auto">
+        <h1 className="text-xl text-center mb-16">Beasiswa</h1>
+        <div className="text-center">
+          <p>Belum ada beasiswa yang tersedia</p>
+        </div>
+      </div>
+    </>
+  )
   
   return (
     <>

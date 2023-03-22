@@ -1,24 +1,35 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import Layout from '../../components/admin/Layout'
-import { Editor } from 'react-draft-wysiwyg'
-import { useInput, useInputFile } from '../../util/hooks'
+import { useInputFile } from '../../util/hooks'
+import defaultImage from '../../assets/images/beasiswa.jpg'
+import { Editor, EditorState } from 'react-draft-wysiwyg'
+import { convertFromRaw, convertToRaw } from 'draft-js'
+import draftToHtml from 'draftjs-to-html'
+import { getScholarshipBySlug } from '../../features/scholarship/scholarshipApi'
+import { useParams } from 'react-router-dom'
 import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { addScholarship, addScholarshipWithImage } from '../../features/scholarship/scholarshipApi';
-import { convertToRaw } from 'draft-js';
-import draftToHtml from 'draftjs-to-html';
 
-const AddScholarship = () => {
-  const [title, onTitleChange] = useInput('')
-  const [organizer, onOrganizerChange] = useInput('')
+const EditScholarship = (props) => {
+  const [title, setTitle] = useState('')
   const [description, setDescription] = useState('')
   const [editorState, setEditorState] = useState('')
   const [image, onImageChange] = useInputFile(null)
+  const [scholarship, setScholarship] = useState({})
+  const { slug } = useParams()
+
+  useEffect(() => {
+    getScholarshipBySlug(slug)
+      .then(res => {
+        const scholarship = res.data()
+        setScholarship(scholarship)
+        setTitle(scholarship.title)
+        setDescription(scholarship.description)
+        setEditorState(EditorState.createWithContent(convertFromRaw(JSON.parse(scholarship.description))))
+      })
+  }, [slug])
 
   function submitHandler() {
-    if (image) {
-      return addScholarshipWithImage({title, organizer, description, image})
-    }
-    return addScholarship({title, description})
+
   }
   
   return (
@@ -26,17 +37,14 @@ const AddScholarship = () => {
       <div className='p-8'>
         <h1 className='font-bold text-xl mb-8'>Tambah Beasiswa Baru</h1>
         <div className="w-1/2">
-          <div className="mb-4">
+          <div className="mb-8">
             <label htmlFor="image" className='block mb-2'>Poster</label>
+            <img src={scholarship.poster ? scholarship.poster : defaultImage} alt='avatar' className='w-32 h-32 mb-2 object-cover' />
             <input type="file" id="image" onChange={onImageChange} accept="/image/*" />
           </div>
           <div className="mb-4">
             <label htmlFor="title" className='block mb-2'>Nama</label>
-            <input type="text" id='title' value={title} onChange={onTitleChange} className='block border border-gray-400 rounded p-1 w-full' />
-          </div>
-          <div className="mb-4">
-            <label htmlFor="organizer" className='block mb-2'>Penyelenggara</label>
-            <input type="text" id='organizer' value={organizer} onChange={onOrganizerChange} className='block border border-gray-400 rounded p-1 w-full' />
+            <input type="text" id='title' value={title} onChange={(e) => setTitle(e.target.value)} className='block border border-gray-400 rounded p-1 w-full' />
           </div>
           <div className="mb-4">
             <label htmlFor="title" className='block mb-2'>Deskripsi</label>
@@ -58,4 +66,4 @@ const AddScholarship = () => {
   )
 }
 
-export default AddScholarship
+export default EditScholarship

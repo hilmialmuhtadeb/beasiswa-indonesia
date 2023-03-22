@@ -1,6 +1,6 @@
 import { addDoc, collection, doc, getDocs, query, updateDoc, where } from "firebase/firestore";
-import { getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
-import { auth, db, storage, uploadToStorage } from "../../util/firebase";
+import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
+import { db, storage } from "../../util/firebase";
 
 async function addUser(user) {
   try {
@@ -26,7 +26,7 @@ async function updateUserProfile(user) {
       type: "avatar",
       file: avatar,
       path: `user/avatar/${date}-${avatar.name}`,
-      user
+      user: userDoc.data()
     })
   }
 
@@ -35,7 +35,7 @@ async function updateUserProfile(user) {
       type: "resume",
       file: resume,
       path: `user/resume/${date}-${resume.name}`,
-      user
+      user: userDoc.data()
     })
   }
 
@@ -58,22 +58,31 @@ async function getUserByEmail(email) {
 async function updateUserStorage({ type, file, path, user }) {
   const fileRef = ref(storage, path);
   const uploadTask = uploadBytesResumable(fileRef, file);
+
+  try {
+    await deleteObject(ref(storage, user[type + 'Path']))
+  }
+  catch(e) {
+    console.log(e)
+  }
+
   uploadTask.on("state_changed",
     null,
     null,
     () => {
       getDownloadURL(uploadTask.snapshot.ref).then((url) => {
-        updateUserField(user, type, url)
+        updateUserField(user, type, url, path)
       });
     }
   );
 }
 
-async function updateUserField(user, field, value) {
+async function updateUserField(user, field, value, path) {
   const userDoc = await getUserByEmail(user.email)
   const userRef = doc(db, "user", userDoc.id);
   const payload = {
-    [field]: value
+    [field]: value,
+    [field + 'Path']: path,
   }
   await updateDoc(userRef, payload)
 }
