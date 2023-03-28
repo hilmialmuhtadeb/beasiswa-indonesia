@@ -6,6 +6,7 @@ import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
 import { addScholarship, addScholarshipWithImage } from '../../features/scholarship/scholarshipApi';
 import { convertToRaw } from 'draft-js';
 import draftToHtml from 'draftjs-to-html';
+import axios from 'axios';
 
 const AddScholarship = () => {
   const [title, onTitleChange] = useInput('')
@@ -20,7 +21,14 @@ const AddScholarship = () => {
     }
     return addScholarship({title, description})
   }
-  
+
+  async function bikinNotif() {
+    await axios.post('http://localhost:5000/send', {
+      title: 'Pertamina Digilib 2023',
+      body: 'Seluruh peserta yang lolos seleksi akan mendapatkan beasiswa 100%'
+    })
+  }
+
   return (
     <Layout>
       <div className='p-8'>
@@ -52,6 +60,9 @@ const AddScholarship = () => {
             />
           </div>
           <button className='text-sm py-2 px-4 bg-blue-500 rounded text-white' onClick={submitHandler}>Buat</button>
+          <div>
+            <button className='text-sm py-2 px-4 bg-blue-500 rounded text-white' onClick={bikinNotif}>Bikin notif</button>
+          </div>
         </div>
       </div>
     </Layout>

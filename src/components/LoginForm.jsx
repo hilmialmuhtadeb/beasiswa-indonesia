@@ -13,7 +13,7 @@ const LoginForm = () => {
 
   async function loginHandler() {
     await login({ email, password })
-    const user = getUserFromDecodeToken()
+    const user = getUserFromDecodeToken() || {}
     dispatch({ type: 'auth/setUser', payload: user })
 
     if (user.email === 'admin@beasiswa-indonesia.com') {
