@@ -72,15 +72,6 @@ self.addEventListener('message', (event) => {
   }
 });
 
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('../firebase-messaging-sw.js')
-      .then(function(registration) {
-      console.log('Registration successful, scope is:', registration.scope);
-      }).catch(function(err) {
-      console.log('Service worker registration failed, error:', err);
-      });
-}
-
 const firebaseApp = initializeApp({
   apiKey: "AIzaSyCnJtOt62qk-Z-0ad2KfpmARWpt55lUZGc",
   authDomain: "beasiswa-indonesia.firebaseapp.com",
@@ -103,3 +94,13 @@ onBackgroundMessage(messaging, (payload) => {
   self.registration.showNotification(notificationTitle,
     notificationOptions);
 });
+
+if ('serviceWorker' in navigator) {
+  navigator.serviceWorker.register('../firebase-messaging-sw.js')
+      .then(function(registration) {
+        messaging.useServiceWorker(registration);
+        console.log('Registration successful, scope is:', registration.scope);
+      }).catch(function(err) {
+        console.log('Service worker registration failed, error:', err);
+      });
+}
