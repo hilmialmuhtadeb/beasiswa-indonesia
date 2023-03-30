@@ -1,14 +1,36 @@
+import axios from "axios";
 import { addDoc, collection, deleteDoc, doc, getDocs, query, where } from "firebase/firestore";
 import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { db, storage } from "../../util/firebase"
 
+async function pushNotification({ title, imageUrl, slug }) {
+  console.log({
+    title,
+    body: 'Beasiswa baru telah ditambahkan, klik untuk melihat.',
+    link: `http://localhost:3000/scholarships/${slug}`,
+    imageUrl
+  });
+  await axios.post('http://beasiswa-indonesia-server.vercel.app/send', {
+    title,
+    body: 'Beasiswa baru telah ditambahkan, klik untuk melihat.',
+    link: `http://localhost:3000/scholarships/${slug}`,
+    imageUrl
+  })
+}
+
 async function addScholarship(scholarship) {
+  const slug = scholarship.title.toLowerCase().replace(/ /g, "-")
   try {
     const payload = {
       ...scholarship,
-      slug: scholarship.title.toLowerCase().replace(/ /g, "-"),
+      slug
     }
     const docRef = await addDoc(collection(db, "scholarship"), payload);
+    pushNotification({
+      title: scholarship.title,
+      slug,
+      imageUrl: null
+    })
     return docRef
   } catch (e) {
     console.error("Error adding document: ", e);
@@ -20,6 +42,7 @@ async function addScholarshipWithImage(scholarship) {
   const date = new Date().getTime().toString()
   const storageRef = ref(storage, `scholarship/${date}-${image.name}`);
   const uploadTask = uploadBytesResumable(storageRef, image);
+  const slug = scholarship.title.toLowerCase().replace(/ /g, "-")
   uploadTask.on(
     "state_changed",
     (snapshot) => {
@@ -35,9 +58,14 @@ async function addScholarshipWithImage(scholarship) {
           ...scholarship,
           image: downloadURL,
           imagePath: `scholarship/${date}-${image.name}`,
-          slug: scholarship.title.toLowerCase().replace(/ /g, "-"),
+          slug
         }
         const docRef = await addDoc(collection(db, "scholarship"), payload);
+        pushNotification({
+          title: scholarship.title,
+          imageUrl: downloadURL,
+          slug
+        })
         return docRef
       });
     }

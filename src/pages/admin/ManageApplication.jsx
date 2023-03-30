@@ -4,14 +4,18 @@ import React, { useEffect, useState } from 'react'
 import { Link } from 'react-router-dom'
 import { getAllApplications } from '../../features/application/applicationApi'
 import Layout from '../../components/admin/Layout'
+import { useDispatch } from 'react-redux'
 
 const ManageApplication = () => {
   const [applications, setApplications] = useState([])
+
+  const dispatch = useDispatch()
   
   useEffect(() => {
     getAllApplications()
       .then(res => {
         setApplications(res)
+        dispatch({ type: 'application/setApplications', payload: res })
       })
   }, [])
 

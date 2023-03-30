@@ -1,12 +1,14 @@
 import React, { useState } from 'react'
-import Layout from '../../components/admin/Layout'
-import { Editor } from 'react-draft-wysiwyg'
-import { useInput, useInputFile } from '../../util/hooks'
-import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
-import { addScholarship, addScholarshipWithImage } from '../../features/scholarship/scholarshipApi';
-import { convertToRaw } from 'draft-js';
+import Swal from 'sweetalert2'
 import draftToHtml from 'draftjs-to-html';
-import axios from 'axios';
+import { Editor } from 'react-draft-wysiwyg'
+import { convertToRaw } from 'draft-js';
+import { useNavigate } from 'react-router-dom';
+import { useInput, useInputFile } from '../../util/hooks'
+import { addScholarship, addScholarshipWithImage, getAllScholarships } from '../../features/scholarship/scholarshipApi';
+import Layout from '../../components/admin/Layout'
+import "react-draft-wysiwyg/dist/react-draft-wysiwyg.css";
+import { useDispatch } from 'react-redux';
 
 const AddScholarship = () => {
   const [title, onTitleChange] = useInput('')
@@ -15,17 +17,26 @@ const AddScholarship = () => {
   const [editorState, setEditorState] = useState('')
   const [image, onImageChange] = useInputFile(null)
 
-  function submitHandler() {
-    if (image) {
-      return addScholarshipWithImage({title, organizer, description, image})
-    }
-    return addScholarship({title, description})
-  }
+  const navigate = useNavigate()
+  const dispatch = useDispatch()
 
-  async function bikinNotif() {
-    await axios.post('http://localhost:5000/send', {
-      title: 'Pertamina Digilib 2023',
-      body: 'Seluruh peserta yang lolos seleksi akan mendapatkan beasiswa 100%'
+  async function submitHandler() {
+    if (image) {
+      await addScholarshipWithImage({title, organizer, description, image})
+    } else {
+      await addScholarship({title, organizer, description})
+    }
+    Swal.fire({
+      title: 'Berhasil',
+      text: 'Beasiswa berhasil dibuat',
+      icon: 'success',
+      confirmButtonText: 'Ok'
+    }).then(() => {
+      navigate('/admin/scholarships')
+      getAllScholarships()
+        .then(res => {
+          dispatch(res)
+        })
     })
   }
 
@@ -60,9 +71,6 @@ const AddScholarship = () => {
             />
           </div>
           <button className='text-sm py-2 px-4 bg-blue-500 rounded text-white' onClick={submitHandler}>Buat</button>
-          <div>
-            <button className='text-sm py-2 px-4 bg-blue-500 rounded text-white' onClick={bikinNotif}>Bikin notif</button>
-          </div>
         </div>
       </div>
     </Layout>

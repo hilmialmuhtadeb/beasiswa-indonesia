@@ -4,9 +4,38 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faEye, faPen, faTrash } from '@fortawesome/free-solid-svg-icons'
 import { deleteScholasrhip, getAllScholarships } from '../../features/scholarship/scholarshipApi';
 import { Link } from 'react-router-dom';
+import Swal from 'sweetalert2';
 
 const ManageScholarship = () => {
   const [scholarships, setScholarships] = useState([])
+  
+  function handleDelete(slug) {
+    Swal.fire({
+      title: 'Apakah anda yakin?',
+      text: "Anda tidak akan dapat mengembalikan data ini!",
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: 'Ya, hapus!'
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteScholasrhip(slug)
+          .then(() => {
+            Swal.fire(
+              'Terhapus!',
+              'Data berhasil dihapus.',
+              'success'
+            )
+            getAllScholarships()
+              .then(res => {
+                setScholarships(res)
+              })
+          })
+      }
+    })
+    
+  }
   
   useEffect(() => {
     getAllScholarships()
@@ -46,18 +75,20 @@ const ManageScholarship = () => {
                         {scholarship.title}
                       </td>
                       <td className="p-2">
-                        {scholarship.slug}
+                        {scholarship.organizer || 'umum' } 
                       </td>
                       <td className="p-2 text-center flex justify-center text-sm text-white">
-                        <button className='bg-green-500 p-2 rounded mr-2'>
-                          <FontAwesomeIcon icon={faEye} />
-                        </button>
+                        <Link to={`/scholarships/${scholarship.slug}`}>
+                          <button className='bg-green-500 p-2 rounded mr-2'>
+                            <FontAwesomeIcon icon={faEye} />
+                          </button>
+                        </Link>
                         <Link to={`/admin/scholarships/${scholarship.slug}/edit`}>
                           <button className='bg-yellow-500 p-2 rounded mr-2'>
                             <FontAwesomeIcon icon={faPen} />
                           </button>
                         </Link>
-                        <button className='bg-red-500 p-2 rounded' onClick={() => deleteScholasrhip(scholarship.slug)}>
+                        <button className='bg-red-500 p-2 rounded' onClick={() => handleDelete(scholarship.slug)}>
                           <FontAwesomeIcon icon={faTrash} />
                         </button>
                       </td>

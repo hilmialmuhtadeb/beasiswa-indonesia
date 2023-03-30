@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { Link } from 'react-router-dom'
 import { getAllScholarships } from '../features/scholarship/scholarshipApi'
 import Navbar from '../components/Navbar'
-import defaultImage from '../assets/images/beasiswa.jpg'
+import ScholarshipCard from '../components/ScholarshipCard'
 
 const Scholarships = () => {
   const [scholarships, setScholarships] = useState([])
@@ -45,17 +45,7 @@ const Scholarships = () => {
         <div className="grid grid-cols-3 gap-4">
           {scholarships.map((scholarship, index) => (
             <Link key={index} to={`/scholarships/${scholarship.slug}`}>
-              <div className="border border-gray-300 rounded my-4">
-                {scholarship.image ? (
-                  <img src={scholarship.image} alt="poster" className='w-full h-48 object-cover' /> 
-                ) : (
-                  <img src={defaultImage} alt="poster" className='w-full h-48 object-cover' /> 
-                )}
-                <div className="p-4">
-                  <h1 className="text-lg font-bold">{scholarship.title}</h1>
-                  <p className="text-sm">{scholarship.slug}</p>
-                </div>
-              </div>
+              <ScholarshipCard scholarship={scholarship} />
             </Link>
           ))}
         </div>
