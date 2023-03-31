@@ -1,5 +1,6 @@
 import axios from "axios";
-import { getMessaging, getToken } from "firebase/messaging";
+import { getMessaging, getToken, onMessage } from "firebase/messaging";
+import { messaging } from "../../util/firebase";
 
 function requestPermission() {
   Notification.requestPermission().then(async (permission) => {
@@ -21,6 +22,16 @@ function requestPermission() {
   });
 }
 
+function onMessageListener () {
+  new Promise((resolve) => {
+    onMessage(messaging, (payload) => {
+      console.log("payload", payload)
+      resolve(payload);
+    });
+  })
+};
+
 export {
-  requestPermission
+  requestPermission,
+  onMessageListener
 }

@@ -12,9 +12,6 @@ import { ExpirationPlugin } from 'workbox-expiration';
 import { precacheAndRoute, createHandlerBoundToURL } from 'workbox-precaching';
 import { registerRoute } from 'workbox-routing';
 import { StaleWhileRevalidate } from 'workbox-strategies';
-import { initializeApp } from "firebase/app";
-import { getMessaging, onBackgroundMessage } from "firebase/messaging/sw";
-import { onMessage } from 'firebase/messaging';
 
 clientsClaim();
 
@@ -71,36 +68,3 @@ self.addEventListener('message', (event) => {
     self.skipWaiting();
   }
 });
-
-const firebaseApp = initializeApp({
-  apiKey: "AIzaSyCnJtOt62qk-Z-0ad2KfpmARWpt55lUZGc",
-  authDomain: "beasiswa-indonesia.firebaseapp.com",
-  projectId: "beasiswa-indonesia",
-  storageBucket: "beasiswa-indonesia.appspot.com",
-  messagingSenderId: "235318415040",
-  appId: "1:235318415040:web:7e8e666c10bc05602a2725",
-  measurementId: "G-HSPMP630EM"
-});
-
-const messaging = getMessaging(firebaseApp);
-
-onBackgroundMessage(messaging, (payload) => {
-  console.log('[firebase-messaging-sw.js] Received background message ', payload);
-  const notificationTitle = 'Background Message Title';
-  const notificationOptions = {
-    body: 'Background Message body.',
-  };
-
-  self.registration.showNotification(notificationTitle,
-    notificationOptions);
-});
-
-if ('serviceWorker' in navigator) {
-  navigator.serviceWorker.register('../firebase-messaging-sw.js')
-      .then(function(registration) {
-        messaging.useServiceWorker(registration);
-        console.log('Registration successful, scope is:', registration.scope);
-      }).catch(function(err) {
-        console.log('Service worker registration failed, error:', err);
-      });
-}
