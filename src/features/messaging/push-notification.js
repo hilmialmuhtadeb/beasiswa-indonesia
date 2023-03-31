@@ -11,8 +11,10 @@ function requestPermission() {
         vapidKey: 'BDcy6eVBfpMiNQ0FKHi4vpUCHHrPo7R6aEp_EEFw_aMiOJuDjVZst5B5pnE-poqsPhe4BnmBeK1ivqXfsw93DUI'
       })
       console.log(token);
-      await axios.post('https://beasiswa-indonesia-server.vercel.app/subscribe', {
-        token
+      await axios.post('https://beasiswa-indonesia-server.vercel.app/subscribe', { token }, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
       })
       console.log('subscribing to push notifications');
       return token;

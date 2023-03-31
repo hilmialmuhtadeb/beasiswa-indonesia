@@ -15,6 +15,10 @@ async function pushNotification({ title, imageUrl, slug }) {
     body: 'Beasiswa baru telah ditambahkan, klik untuk melihat.',
     link: `http://localhost:3000/scholarships/${slug}`,
     imageUrl
+  }, {
+    headers: {
+      'Content-Type': 'application/json'
+    }
   })
 }
 
