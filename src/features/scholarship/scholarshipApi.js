@@ -4,13 +4,7 @@ import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from "firebas
 import { db, storage } from "../../util/firebase"
 
 async function pushNotification({ title, imageUrl, slug }) {
-  console.log({
-    title,
-    body: 'Beasiswa baru telah ditambahkan, klik untuk melihat.',
-    link: `http://localhost:3000/scholarships/${slug}`,
-    imageUrl
-  });
-  await axios.post('http://beasiswa-indonesia-server.vercel.app/send', {
+  await axios.post('https://beasiswa-indonesia-server.vercel.app/send', {
     title,
     body: 'Beasiswa baru telah ditambahkan, klik untuk melihat.',
     link: `http://localhost:3000/scholarships/${slug}`,
