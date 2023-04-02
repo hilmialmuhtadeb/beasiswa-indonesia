@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
 import { getApplicationById, proceedApplication, rejectApplication } from '../../features/application/applicationApi'
 import Layout from '../../components/admin/Layout'
+import Swal from 'sweetalert2'
 
 const DetailApplication = () => {
   const [application, setApplication] = useState(null)
@@ -21,18 +22,16 @@ const DetailApplication = () => {
     }
   }, [application])
 
-  if (!application) {
-    return (
-      <Layout>
-        <div className='p-8'>
-          Loading
-        </div>
-      </Layout>
-    )
-  }
-
   async function rejectHandler() {
-    await rejectApplication(id)
+    rejectApplication(id)
+      .then(() => {
+        Swal.fire({
+          title: 'Berhasil',
+          text: 'Aplikasi berhasil ditolak',
+          icon: 'success',
+          confirmButtonText: 'OK'
+      }).then(() => window.location.reload())
+    })
   }
 
   async function proceedHandler() {
@@ -47,7 +46,25 @@ const DetailApplication = () => {
       payload['isFinal'] = true
     }
 
-    await proceedApplication(id, payload)
+    proceedApplication(id, payload)
+      .then(() => {
+        Swal.fire({
+          title: 'Berhasil',
+          text: 'Aplikasi berhasil diproses',
+          icon: 'success',
+          confirmButtonText: 'OK'
+      }).then(() => window.location.reload())
+    })
+  }
+
+  if (!application) {
+    return (
+      <Layout>
+        <div className='p-8'>
+          Loading
+        </div>
+      </Layout>
+    )
   }
   
   return (

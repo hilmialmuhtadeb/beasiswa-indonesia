@@ -15,9 +15,10 @@ async function addApplication(email, slug) {
       status: "Dalam antrian review",
       statusCode: 1,
       isFinal: false,
+      createdAt: new Date().toString(),
     }
-    const docRef = await addDoc(collection(db, "application"), payload);
-    return docRef
+    await addDoc(collection(db, "application"), payload);
+    return payload
   } catch (e) {
     console.error("Error adding document: ", e);
   }
@@ -34,6 +35,13 @@ async function getAllApplications() {
         })
       })
     })
+  return applications
+}
+
+async function getUserApplications() {
+  const authUser = getUserFromDecodeToken()
+  const applicationsRef = await getDocs(query(collection(db, "application"), where("user.email", "==", authUser.email)))
+  const applications = applicationsRef.docs.map(doc => doc.data())
   return applications
 }
 
@@ -63,6 +71,15 @@ async function isAuthUserApplied(slug) {
   return applications.some(app => app.scholarship.slug === slug)
 }
 
+async function isAuthUserEligible() {
+  const authUser = getUserFromDecodeToken()
+  const user = await getUserByEmail(authUser.email)
+  if (user.data().resume) {
+    return true
+  }
+  return false
+}
+
 export {
   addApplication,
   isAuthUserApplied,
@@ -70,4 +87,6 @@ export {
   getApplicationById,
   rejectApplication,
   proceedApplication,
+  getUserApplications,
+  isAuthUserEligible
 }

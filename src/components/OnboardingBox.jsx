@@ -10,8 +10,8 @@ const OnboardingBox = () => {
   
   return (
     <div className='h-screen flex items-center bg-gray-200'>
-      <div className="w-full lg:w-3/4 h-5/6 grid grid-cols-2 mx-auto">
-        <div className="bg-blue-600 rounded-l-lg shadow-lg">
+      <div className="lg:w-3/4 h-full md:h-5/6 flex flex-col-reverse md:flex-row justify-center mx-auto">
+        <div className="bg-blue-600 rounded-l-lg shadow-lg h-full">
           <div className="flex h-full flex-col justify-center">
             <img src={onBoardingImage} alt="ilustrasi login" className='mx-auto mb-4 object-cover' />
             <div className="text-center mb-8 attribution text-white text-xs">
@@ -23,8 +23,8 @@ const OnboardingBox = () => {
             </div>
           </div>
         </div>
-        <div className="bg-white p-8 rounded-r-lg shadow-lg relative">
-          <Link to="/"><h2 className='absolute top-8 left-8'>Beasiswa Indonesia</h2></Link>
+        <div className="bg-white px-8 py-16 rounded-r-lg shadow-lg relative">
+          <Link to="/"><h2 className='absolute top-8 left-0 w-full text-center'>Beasiswa Indonesia</h2></Link>
           { pathname === 'login' ? (
             <LoginForm />
           ) : (

@@ -6,6 +6,7 @@ import { logout } from '../util/auth'
 import Navbar from '../components/Navbar'
 import defaultAvatar from '../assets/images/avatar.png'
 import { getUserByEmail } from '../features/auth/userApi'
+import { requestPermission } from '../features/messaging/push-notification'
 
 const Profile = () => {
   const user = useSelector(authUser)
@@ -36,9 +37,9 @@ const Profile = () => {
     return (
       <>
         <Navbar />
-        <div className='lg:w-2/3 mx-auto px-8 py-4'>
-          <div className='flex mb-8 items-center justify-between'>
-            <div className='flex items-center'>
+        <div className='lg:w-2/3 mx-auto px-8 py-4 overflow-hidden'>
+          <div className='flex flex-col md:flex-row mb-8 items-center justify-between'>
+            <div className='flex flex-col md:flex-row items-center mb-4 md:mb-0'>
               <img src={profile.avatar ? profile.avatar : defaultAvatar} alt='avatar' className='w-32 h-32 rounded-full object-cover' />
               <div className="ml-8">
                 <h1 className='text-2xl font-bold'>{profile.name}</h1>
@@ -48,6 +49,10 @@ const Profile = () => {
             <Link to="/profile/edit">
               <button className='p-2 text-xs rounded bg-blue-500 text-white font-bold'>Ubah Profil</button>
             </Link>
+          </div>
+
+          <div className="my-4">
+            <button className='bg-gray-100 rounded border p-2' onClick={requestPermission}>Req Notif</button>
           </div>
 
           <div className="mb-4">
@@ -68,7 +73,7 @@ const Profile = () => {
           </div>
           <div className="mb-4">
             <h2 className='font-bold'>CV / Resume</h2>
-            <p>{profile.resume || '-'}</p>
+            <p className='truncate'>{profile.resume || '-'}</p>
           </div>
           <button className='border border-red-500 text-red-500 p-2 text-sm hover:bg-red-500 hover:text-white rounded font-bold' onClick={logoutHandler}>Logout</button>
         </div>

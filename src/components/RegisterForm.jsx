@@ -24,10 +24,10 @@ const RegisterForm = () => {
   }
 
   return (
-    <div className="h-full flex flex-col justify-center">
+    <div className="h-full flex flex-col justify-center items-center">
       <div className="mb-4">
-        <h1 className='text-2xl font-bold mb-2'>Daftar Akun</h1>
-        <p className='text-xs text-gray-500'>Sesuaikan dengan identitas resmi Anda.</p>
+        <h1 className='text-2xl font-bold mb-2 text-center'>Daftar Akun</h1>
+        <p className='text-xs text-gray-500 text-center'>Sesuaikan dengan identitas resmi Anda.</p>
       </div>
       <div className="input-box w-64 mb-8">
         <input className='block box-border border border-gray-300 mb-2 text-sm py-1 px-2 rounded w-full' placeholder='Nama' type="text" value={name} onChange={onNameChange} />

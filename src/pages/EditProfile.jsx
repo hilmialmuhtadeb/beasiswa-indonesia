@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
+import Swal from 'sweetalert2'
 import defaultAvatar from '../assets/images/avatar.png'
 import Navbar from '../components/Navbar'
 import { updateUserProfile } from '../features/auth/userApi'
@@ -17,7 +18,7 @@ const EditProfile = () => {
   const [resume, setResume] = useState(null)
 
   async function handleSubmit() {
-    const userProfile = await updateUserProfile({
+    updateUserProfile({
       name,
       instance,
       birthDate,
@@ -27,7 +28,24 @@ const EditProfile = () => {
       resume,
       email: user.email
     })
-    dispatch({ type: 'auth/setUserProfile', payload: userProfile})
+      .then(res => {
+        Swal.fire({
+          title: 'Berhasil',
+          text: 'Profil berhasil diperbarui',
+          icon: 'success',
+        })
+        dispatch({ type: 'auth/setUserProfile', payload: {
+          ...user,
+          resume: res.resume.name,
+        }})
+      })
+      .catch(err => {
+        Swal.fire({
+          title: 'Gagal',
+          text: err.message,
+          icon: 'error',
+        })
+      })
   }
 
   useEffect(() => {
@@ -49,12 +67,12 @@ const EditProfile = () => {
         <div className='lg:w-2/3 mx-auto px-8 py-4'>
           <div className="mb-8">
             <h2 className='font-bold mb-2'>Avatar</h2>
-            <img src={user.avatar ? user.avatar : defaultAvatar} alt='avatar' className='w-32 h-32 mb-2' />
+            <img src={user.avatar ? user.avatar : defaultAvatar} alt='avatar' className='w-32 h-32 mb-2 object-cover' />
             <input type="file" id="image" onChange={(e) => setAvatar(e.target.files[0])} accept="/image/*" />
           </div>
           <div className="mb-4">
             <h2 className='font-bold mb-1'>Nama</h2>
-            <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="border border-2 border-gray-300 p-1 rounded w-1/2" />
+            <input type="text" value={name} onChange={(e) => setName(e.target.value)} className="border border-2 border-gray-300 p-1 rounded w-full md:w-1/2" />
           </div>
           <div className="mb-4">
             <h2 className='font-bold'>Email</h2>
@@ -62,15 +80,15 @@ const EditProfile = () => {
           </div>
           <div className="mb-4">
             <h2 className='font-bold'>Sekolah / Universitas</h2>
-            <input type="text" value={instance} onChange={(e) => setInstance(e.target.value)} placeholder="contoh: Universitas Negeri Surabaya" className="border border-2 border-gray-300 p-1 rounded w-1/2" />
+            <input type="text" value={instance} onChange={(e) => setInstance(e.target.value)} placeholder="contoh: Universitas Negeri Surabaya" className="border border-2 border-gray-300 p-1 rounded w-full md:w-1/2" />
           </div>
           <div className="mb-4">
             <h2 className='font-bold'>Tanggal Lahir</h2>
-            <input type="date" value={birthDate} onChange={(e) => setBirthDate(e.target.value)} className="border border-2 border-gray-300 p-1 rounded w-1/2" />
+            <input type="date" value={birthDate} onChange={(e) => setBirthDate(e.target.value)} className="border border-2 border-gray-300 p-1 rounded w-full md:w-1/2" />
           </div>
           <div className="mb-4">
             <h2 className='font-bold'>Jenis Kelamin</h2>  
-            <select id="gender" value={gender} onChange={(e) => setGender(e.target.value)} className="border border-2 border-gray-300 p-1 rounded w-1/2">
+            <select id="gender" value={gender} onChange={(e) => setGender(e.target.value)} className="border border-2 border-gray-300 p-1 rounded w-full md:w-1/2">
               <option disabled>Pilih Salah Satu</option>
               <option value="male">Laki-laki</option>
               <option value="female">Perempuan</option>
@@ -78,10 +96,10 @@ const EditProfile = () => {
           </div>
           <div className="mb-4">
             <h2 className='font-bold'>No. Telepon</h2>
-            <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="contoh: 628113387650" className="border border-2 border-gray-300 p-1 rounded w-1/2" />
+            <input type="text" value={phone} onChange={(e) => setPhone(e.target.value)} placeholder="contoh: 628113387650" className="border border-2 border-gray-300 p-1 rounded w-full md:w-1/2" />
           </div>
           <div className="mb-4">
-            <h2 className='font-bold mb-2'>CV / Resume</h2>
+            <h2 className='font-bold mb-2'>CV / Resume (.pdf)</h2>
             <input type="file" id="resume" onChange={(e) => setResume(e.target.files[0])} />
           </div>
           <div className="my-4">

@@ -5,7 +5,8 @@ export const authSlice = createSlice({
   initialState: {
     user: null,
     isAdmin: false,
-    profile: null
+    profile: null,
+    applications: null,
   },
   reducers: {
     setUser: (state, action) => {
@@ -17,6 +18,12 @@ export const authSlice = createSlice({
     setIsAdmin: (state, action) => {
       state.isAdmin = action.payload;
     },
+    setApplications: (state, action) => {
+      state.applications = action.payload;
+    },
+    addUserApplications: (state, action) => {
+      state.applications.push(action.payload);
+    }
   },
 });
 

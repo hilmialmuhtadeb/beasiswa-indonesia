@@ -13,6 +13,7 @@ import EditProfile from '../pages/EditProfile'
 import EditScholarship from '../pages/admin/EditScholarship'
 import ManageApplication from '../pages/admin/ManageApplication'
 import DetailApplication from '../pages/admin/DetailApplication'
+import Application from '../pages/Application'
 
 const Router = () => {
   const isAdmin = useSelector(state => state.auth.isAdmin)
@@ -36,6 +37,7 @@ const Router = () => {
       <Route path='/' exact element={<Home />} />
       <Route path='/scholarships' element={<Scholarships />} />
       <Route path='/scholarships/:slug' element={<DetailScholarships />} />
+      <Route path='/applications' element={<Application />} />
       <Route path='/profile' element={<Profile />} />
       <Route path='/profile/edit' element={<EditProfile />} />
       <Route path='/login' element={<OnboardingBox />} />

@@ -27,10 +27,10 @@ const LoginForm = () => {
   }
 
   return (
-    <div className="h-full flex flex-col justify-center">
+    <div className="h-full flex flex-col justify-center items-center">
       <div className="mb-4">
-        <h1 className='text-2xl font-bold mb-2'>Masuk</h1>
-        <p className='text-xs text-gray-500'>Masukkan informasi akun yang sudah terdaftar.</p>
+        <h1 className='text-2xl font-bold mb-2 text-center'>Masuk</h1>
+        <p className='text-xs text-gray-500 text-center'>Masukkan informasi akun yang sudah terdaftar.</p>
       </div>
       <div className="input-box w-64 mb-8">
         <input className='block box-border border border-gray-300 mb-2 text-sm py-1 px-2 rounded w-full' placeholder='email' type="email" value={email} onChange={onEmailChange} />

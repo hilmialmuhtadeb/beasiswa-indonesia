@@ -15,6 +15,7 @@ const AddScholarship = () => {
   const [organizer, onOrganizerChange] = useInput('')
   const [description, setDescription] = useState('')
   const [editorState, setEditorState] = useState('')
+  const [deadline, onDeadlineChange] = useInput('')
   const [image, onImageChange] = useInputFile(null)
 
   const navigate = useNavigate()
@@ -56,6 +57,10 @@ const AddScholarship = () => {
           <div className="mb-4">
             <label htmlFor="organizer" className='block mb-2'>Penyelenggara</label>
             <input type="text" id='organizer' value={organizer} onChange={onOrganizerChange} className='block border border-gray-400 rounded p-1 w-full' />
+          </div>
+          <div className="mb-4">
+            <label htmlFor="deadline" className='block mb-2'>Batas Pendaftaran</label>
+            <input type="date" id='deadline' value={deadline} onChange={onDeadlineChange} className='block border border-gray-400 rounded p-1 w-full' />
           </div>
           <div className="mb-4">
             <label htmlFor="title" className='block mb-2'>Deskripsi</label>

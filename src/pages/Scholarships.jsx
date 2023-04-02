@@ -4,11 +4,14 @@ import { Link } from 'react-router-dom'
 import { getAllScholarships } from '../features/scholarship/scholarshipApi'
 import Navbar from '../components/Navbar'
 import ScholarshipCard from '../components/ScholarshipCard'
+import ScholarshipCardSkeleton from '../components/ScholarshipCardSkeleton'
 
 const Scholarships = () => {
-  const [scholarships, setScholarships] = useState([])
-  const dispatch = useDispatch()
+  const [scholarships, setScholarships] = useState(null)
   const reduxScholarships = useSelector(state => state.scholarship.scholarships)
+  const dispatch = useDispatch()
+
+  const skeleton = [1, 2, 3, 4, 5]
   
   useEffect(() => {
     if (reduxScholarships) {
@@ -23,7 +26,19 @@ const Scholarships = () => {
       })
   }, [])
 
-  if (!scholarships) return <div>Loading...</div>
+  if (!scholarships) return (
+    <>
+      <Navbar />
+      <div className="w-3/4 mx-auto">
+        <h1 className="text-xl text-center mb-16">Beasiswa</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
+          {skeleton.map((item, index) => (
+            <ScholarshipCardSkeleton key={index} />
+          ))}
+        </div>
+      </div>
+    </>
+  )
 
   if (scholarships.length === 0) return (
     <>
@@ -40,9 +55,9 @@ const Scholarships = () => {
   return (
     <>
       <Navbar />
-      <div className="w-3/4 mx-auto">
-        <h1 className="text-xl text-center">Beasiswa</h1>
-        <div className="grid grid-cols-3 gap-4">
+      <div className="mx-4 lg:w-3/4 lg:mx-auto">
+        <h1 className="text-xl font-bold lg:text-center">Beasiswa Tersedia</h1>
+        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-4">
           {scholarships.map((scholarship, index) => (
             <Link key={index} to={`/scholarships/${scholarship.slug}`}>
               <ScholarshipCard scholarship={scholarship} />

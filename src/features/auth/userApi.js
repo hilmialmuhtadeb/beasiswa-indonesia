@@ -20,7 +20,7 @@ async function updateUserProfile(user) {
   const { avatar, resume } = user
   const userDoc = await getUserByEmail(user.email)
   const date = new Date().getTime().toString()
-  
+
   if (avatar.name) {
     updateUserStorage({
       type: "avatar",
@@ -59,11 +59,8 @@ async function updateUserStorage({ type, file, path, user }) {
   const fileRef = ref(storage, path);
   const uploadTask = uploadBytesResumable(fileRef, file);
 
-  try {
+  if (!isFirstTimeUpdate(user, type)) {
     await deleteObject(ref(storage, user[type + 'Path']))
-  }
-  catch(e) {
-    console.log(e)
   }
 
   uploadTask.on("state_changed",
@@ -75,6 +72,11 @@ async function updateUserStorage({ type, file, path, user }) {
       });
     }
   );
+}
+
+function isFirstTimeUpdate(user, field) {
+  const isFieldExist = !!user[field];
+  return !isFieldExist
 }
 
 async function updateUserField(user, field, value, path) {
