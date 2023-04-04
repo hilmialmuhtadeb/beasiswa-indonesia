@@ -23,7 +23,9 @@ const DetailApplication = () => {
   }, [application])
 
   async function rejectHandler() {
-    rejectApplication(id)
+    const email = application.user.email
+
+    rejectApplication(id, { email })
       .then(() => {
         Swal.fire({
           title: 'Berhasil',
@@ -36,6 +38,7 @@ const DetailApplication = () => {
 
   async function proceedHandler() {
     const payload = {}
+    const email = application.user.email
 
     if (application.statusCode === 1) {
       payload['status'] = 'Sedang direview'
@@ -46,7 +49,7 @@ const DetailApplication = () => {
       payload['isFinal'] = true
     }
 
-    proceedApplication(id, payload)
+    proceedApplication(id, payload, { email })
       .then(() => {
         Swal.fire({
           title: 'Berhasil',

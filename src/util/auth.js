@@ -55,10 +55,15 @@ function getUserFromDecodeToken() {
   return decodedToken
 }
 
+function transformEmailToUsername(email) {
+  return email.split('@')[0]
+}
+
 export {
   register,
   login,
   logout,
   isAccessTokenExist,
-  getUserFromDecodeToken
+  getUserFromDecodeToken,
+  transformEmailToUsername
 }
