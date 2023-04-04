@@ -26,9 +26,11 @@ const Navbar = () => {
       <ul className={`${isOpen ? 'flex' : 'hidden'} lg:flex flex-col lg:flex-row lg:items-center w-full lg:justify-end mb-8 lg:mb-0`}>
         <li className='ml-4 py-2 px-2 rounded hover:bg-gray-200'><Link to={'/'}>Home</Link></li>
         <li className='ml-4 py-2 px-2 rounded hover:bg-gray-200'><Link to={'/scholarships'}>Beasiswa</Link></li>
-        <li className='ml-4 py-2 px-2 rounded hover:bg-gray-200'><Link to={'/applications'}>Aplikasi</Link></li>
         { user ? (
-          <li className='ml-4 py-2 px-2 rounded hover:bg-gray-200 font-bold text-blue-500 decoration-solid underline box-border'><Link to={'/profile'}>{user.name || user.email}</Link></li>
+          <>
+            <li className='ml-4 py-2 px-2 rounded hover:bg-gray-200'><Link to={'/applications'}>Aplikasi</Link></li>
+            <li className='ml-4 py-2 px-2 rounded hover:bg-gray-200 font-bold text-blue-500 decoration-solid underline box-border'><Link to={'/profile'}>{user.name || user.email}</Link></li>
+          </>
         ) : (
           <li className='ml-4 py-2 px-2 rounded hover:bg-gray-200'><Link to={'/login'}>Login</Link></li>
         )}

@@ -4,6 +4,7 @@ import Swal from 'sweetalert2'
 import defaultAvatar from '../assets/images/avatar.png'
 import Navbar from '../components/Navbar'
 import { updateUserProfile } from '../features/auth/userApi'
+import Footer from '../components/Footer'
 
 const EditProfile = () => {
   const user = useSelector(state => state.auth.profile)
@@ -106,6 +107,7 @@ const EditProfile = () => {
             <button className='w-1/2 bg-green-500 rounded p-1 text-white' onClick={handleSubmit}>Ubah Profil</button>
           </div>
         </div>
+        <Footer />
       </>
     )
   }
@@ -116,6 +118,7 @@ const EditProfile = () => {
       <div className='lg:w-2/3 mx-auto px-8 py-4'>
         <h2 className='font-bold'>Loading</h2>
       </div>
+      <Footer />
     </div>
   )
   

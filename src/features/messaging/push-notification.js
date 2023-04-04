@@ -24,7 +24,7 @@ function requestPermission() {
 }
 
 function onMessageListener () {
-  new Promise((resolve) => {
+  return new Promise((resolve) => {
     onMessage(messaging, (payload) => {
       console.log("[onMessage] received new push notif:  ", payload)
       resolve(payload);
