@@ -40,7 +40,7 @@ const Footer = () => {
             </div>
             <div className="w-full lg:w-6/12 px-4">
               <div className="flex flex-wrap items-top mb-6">
-                <div className="w-full lg:w-4/12 px-4 ml-auto">
+                <div className="w-full lg:w-4/12 my-4 lg:px-4 ml-auto">
                   <span className="block uppercase text-gray-600 text-sm font-semibold mb-2">
                     Pusat Bantuan
                   </span>
@@ -71,7 +71,7 @@ const Footer = () => {
                     </li>
                   </ul>
                 </div>
-                <div className="w-full lg:w-4/12 px-4">
+                <div className="w-full lg:w-4/12 my-4 lg:px-4">
                   <span className="block uppercase text-gray-600 text-sm font-semibold mb-2">
                     Sumber Daya Lain
                   </span>
