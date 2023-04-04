@@ -2,6 +2,8 @@ import React, { useEffect } from 'react'
 import { useDispatch } from 'react-redux'
 import { getUserFromDecodeToken } from './util/auth'
 import Router from './routes/Router'
+import OfflineAlert from './components/OfflineAlert'
+import Notification from './components/Notification'
 
 const App = () => {
   const dispatch = useDispatch()
@@ -14,9 +16,12 @@ const App = () => {
       dispatch({ type: 'auth/setIsAdmin', payload: true })
     }
   }, [])
+  
 
   return (
     <div>
+      <OfflineAlert />
+      <Notification />
       <Router />
     </div>
   )

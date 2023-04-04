@@ -7,9 +7,10 @@ import studyIllustration from '../assets/illustrations/study.png'
 import { getAllScholarships } from '../features/scholarship/scholarshipApi'
 import ScholarshipCard from '../components/ScholarshipCard'
 import ScholarshipCardSkeleton from '../components/ScholarshipCardSkeleton'
+import Footer from '../components/Footer'
 
 const Home = () => {
-  const [scholarships, setScholarships] = useState(null)
+  const [scholarships, setScholarships] = useState([])
   const reduxScholarships = useSelector(state => state.scholarship.scholarships)
   const user = useSelector(authUser)
   const dispatch = useDispatch()
@@ -45,9 +46,15 @@ const Home = () => {
       </>
     )
 
+    if (scholarships.length === 0) return (
+      <>
+        <p className='my-8 p-2 rounded text-yellow-800 bg-yellow-200 text-center w-full'>Belum ada beasiswa yang tersedia</p>
+      </>
+    )
+
     return (
       <>
-        {scholarships.map((scholarship, index) => (
+        {scholarships.slice(0, 4).map((scholarship, index) => (
           <Link key={index} to={`/scholarships/${scholarship.slug}`}>
             <ScholarshipCard scholarship={scholarship} />
           </Link>
@@ -81,8 +88,8 @@ const Home = () => {
             {showScholasrhips()}
           </div>
         </section>
-        <hr />
       </div>
+      <Footer />
     </>
   )
 }

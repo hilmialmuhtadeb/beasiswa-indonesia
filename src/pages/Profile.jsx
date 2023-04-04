@@ -7,6 +7,7 @@ import Navbar from '../components/Navbar'
 import defaultAvatar from '../assets/images/avatar.png'
 import { getUserByEmail } from '../features/auth/userApi'
 import { requestPermission } from '../features/messaging/push-notification'
+import Footer from '../components/Footer'
 
 const Profile = () => {
   const user = useSelector(authUser)
@@ -77,6 +78,7 @@ const Profile = () => {
           </div>
           <button className='border border-red-500 text-red-500 p-2 text-sm hover:bg-red-500 hover:text-white rounded font-bold' onClick={logoutHandler}>Logout</button>
         </div>
+        <Footer />
       </>
     )
   }

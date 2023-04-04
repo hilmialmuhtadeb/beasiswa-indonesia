@@ -5,6 +5,7 @@ import { getAllScholarships } from '../features/scholarship/scholarshipApi'
 import Navbar from '../components/Navbar'
 import ScholarshipCard from '../components/ScholarshipCard'
 import ScholarshipCardSkeleton from '../components/ScholarshipCardSkeleton'
+import Footer from '../components/Footer'
 
 const Scholarships = () => {
   const [scholarships, setScholarships] = useState(null)
@@ -37,6 +38,7 @@ const Scholarships = () => {
           ))}
         </div>
       </div>
+      <Footer />
     </>
   )
 
@@ -49,6 +51,7 @@ const Scholarships = () => {
           <p>Belum ada beasiswa yang tersedia</p>
         </div>
       </div>
+      <Footer />
     </>
   )
   
@@ -65,6 +68,7 @@ const Scholarships = () => {
           ))}
         </div>
       </div>
+      <Footer />
     </>
   )
 }

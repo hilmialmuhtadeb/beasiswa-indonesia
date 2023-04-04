@@ -7,6 +7,7 @@ import Navbar from '../components/Navbar'
 import defaultImage from '../assets/images/beasiswa.jpg'
 import '../index.css'
 import Swal from 'sweetalert2'
+import Footer from '../components/Footer'
 
 const DetailScholarships = () => {
   const { slug } = useParams()
@@ -81,6 +82,7 @@ const DetailScholarships = () => {
         <div className="w-3/4 mx-auto">
           <h1 className="text-xl mt-16 text-center">Loading...</h1>
         </div>
+        <Footer />
       </>
     )
   }
@@ -114,6 +116,7 @@ const DetailScholarships = () => {
           </div>
         </div>
       </div>
+      <Footer />
     </>
   )
 }

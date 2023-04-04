@@ -2,17 +2,23 @@ import axios from "axios";
 import { addDoc, collection, deleteDoc, doc, getDocs, query, where } from "firebase/firestore";
 import { deleteObject, getDownloadURL, ref, uploadBytesResumable } from "firebase/storage";
 import { db, storage } from "../../util/firebase"
+import { toast } from "react-hot-toast";
 
-async function pushNotification({ title, imageUrl, slug }) {
-  await axios.post('https://beasiswa-indonesia-server.vercel.app/send', {
-    title,
-    body: 'Beasiswa baru telah ditambahkan, klik untuk melihat.',
-    link: `http://localhost:3000/scholarships/${slug}`,
-    imageUrl
-  }, {
+async function pushNotification(options) {
+  axios.post('https://beasiswa-indonesia-server.vercel.app/send', options, {
     headers: {
       'Content-Type': 'application/json'
     }
+  }).then(res => {
+    if (res.status === 200) {
+      toast('Notifikasi berhasil dikirim', {
+        icon: '👍',
+      })
+    }
+  }).catch(err => {
+    toast('Notifikasi gagal dikirim', {
+      icon: '👎',
+    })
   })
 }
 
@@ -25,9 +31,11 @@ async function addScholarship(scholarship) {
     }
     const docRef = await addDoc(collection(db, "scholarship"), payload);
     pushNotification({
-      title: scholarship.title,
-      slug,
-      imageUrl: null
+      title: 'Beasiswa baru tersedia, cek sekarang!',
+      body: scholarship.title,
+      link: `https://beasiswa-indonesia.netlify.app/scholarships/${slug}`,
+      imageUrl: null,
+      topic: 'beasiswa-indonesia'
     })
     return docRef
   } catch (e) {
@@ -60,9 +68,11 @@ async function addScholarshipWithImage(scholarship) {
         }
         const docRef = await addDoc(collection(db, "scholarship"), payload);
         pushNotification({
-          title: scholarship.title,
+          title: 'Beasiswa baru tersedia, cek sekarang!',
+          body: scholarship.title,
+          link: `https://beasiswa-indonesia.netlify.app/scholarships/${slug}`,
           imageUrl: downloadURL,
-          slug
+          topic: 'beasiswa-indonesia'
         })
         return docRef
       });
@@ -107,4 +117,5 @@ export {
   addScholarship,
   addScholarshipWithImage,
   deleteScholasrhip,
+  pushNotification
 }

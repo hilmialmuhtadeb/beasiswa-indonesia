@@ -1,8 +1,8 @@
 import { addDoc, collection, doc, getDoc, getDocs, query, updateDoc, where } from "firebase/firestore";
-import { getUserFromDecodeToken } from "../../util/auth";
+import { getUserFromDecodeToken, transformEmailToUsername } from "../../util/auth";
 import { db } from "../../util/firebase"
 import { getUserByEmail } from "../auth/userApi";
-import { getScholarshipBySlug } from "../scholarship/scholarshipApi";
+import { getScholarshipBySlug, pushNotification } from "../scholarship/scholarshipApi";
 
 async function addApplication(email, slug) {
   const userDoc = await getUserByEmail(email)
@@ -52,16 +52,34 @@ async function getApplicationById(id) {
     })
 }
 
-async function rejectApplication(id) {
+async function rejectApplication(id, options) {
+  const { email } = options
+  const topic = transformEmailToUsername(email)
   await updateDoc(doc(db, "application", id), {
     status: "Ditolak",
     statusCode: 0,
     isFinal: true
   })
+  pushNotification({
+    title: 'Status Pengaajuan Anda Diperbarui, Silahkan Cek!',
+    body: 'klik untuk melihat status pengajuan anda',
+    link: 'https://beasiswa-indonesia.netlify.app/applications',
+    imageUrl: null,
+    topic
+  })
 }
 
-async function proceedApplication(id, payload) {
+async function proceedApplication(id, payload, options) {
+  const { email } = options
+  const topic = transformEmailToUsername(email)
   await updateDoc(doc(db, "application", id), payload)
+  pushNotification({
+    title: 'Status Pengaajuan Anda Diperbarui, Silahkan Cek!',
+    body: 'klik untuk melihat status pengajuan',
+    link: 'https://beasiswa-indonesia.netlify.app/applications',
+    imageUrl: null,
+    topic
+  })
 }
 
 async function isAuthUserApplied(slug) {

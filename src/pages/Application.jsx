@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import Navbar from '../components/Navbar'
 import { getUserApplications } from '../features/application/applicationApi'
+import Footer from '../components/Footer'
 
 const Application = () => {
   const [applications, setApplications] = useState(null)
@@ -35,6 +36,20 @@ const Application = () => {
           <p>Loading...</p>
         </div>
       </div>
+      <Footer />
+    </>
+  )
+
+  if (applications.length === 0) return (
+    <>
+      <Navbar />
+      <div className="w-3/4 mx-auto">
+        <h1 className="text-xl text-center mb-16">Status Aplikasi Beasiswa</h1>
+        <div className="text-center">
+          <p className='bg-yellow-200 text-yellow-800 rounded py-2'>Tidak ada aplikasi beasiswa ditemukan.</p>
+        </div>
+      </div>
+      <Footer />
     </>
   )
   
@@ -76,6 +91,7 @@ const Application = () => {
           </table>
         </div>
       </div>
+      <Footer />
     </>
   )
 }
