@@ -53,7 +53,7 @@ const Profile = () => {
           </div>
 
           <div className="my-4">
-            <button className='bg-gray-100 rounded border p-2' onClick={requestPermission}>Req Notif</button>
+            <button className='bg-gray-100 hover:bg-gray-200 rounded border p-2' onClick={requestPermission}>Dapatkan Notifikasi</button>
           </div>
 
           <div className="mb-4">
