@@ -2,6 +2,7 @@ import axios from "axios";
 import { getMessaging, getToken, onMessage } from "firebase/messaging";
 import { messaging } from "../../util/firebase";
 import { getUserFromDecodeToken, transformEmailToUsername } from "../../util/auth";
+import { toast } from "react-hot-toast";
 
 function requestPermission() {
   Notification.requestPermission().then(async (permission) => {
@@ -30,6 +31,7 @@ function requestPermission() {
           }
         })
       }
+      toast.success('Anda akan menerima notifikasi.')
       console.log(token);
       return token;
     } else {
