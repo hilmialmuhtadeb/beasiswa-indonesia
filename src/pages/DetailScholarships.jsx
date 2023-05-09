@@ -94,9 +94,11 @@ const DetailScholarships = () => {
         <h1 className="text-xl font-bold text-center mb-4 lg:mb-8">{scholarship.title}</h1>
         <div className="flex flex-col-reverse lg:flex-row gap-8">
           <div className="lg:w-2/3">
-            {splittedDescription.map((pharaph, index) => (
+            {!!splittedDescription.length ? splittedDescription.map((pharaph, index) => (
               <p key={index} className="mb-4" dangerouslySetInnerHTML={{ __html: pharaph }} />
-            ))}
+            )) : (
+              <p className="mb-4" dangerouslySetInnerHTML={{ __html: scholarship.description }} />
+            )}
           </div>
           <div className="lg:w-1/3">
             <div className='w-full mb-2'>
