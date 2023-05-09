@@ -23,9 +23,9 @@ const AddScholarship = () => {
 
   async function submitHandler() {
     if (image) {
-      await addScholarshipWithImage({title, organizer, description, image})
+      await addScholarshipWithImage({title, organizer, deadline, description, image})
     } else {
-      await addScholarship({title, organizer, description})
+      await addScholarship({title, organizer, deadline, description})
     }
     Swal.fire({
       title: 'Berhasil',
