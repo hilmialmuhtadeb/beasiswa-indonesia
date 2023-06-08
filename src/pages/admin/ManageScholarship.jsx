@@ -21,7 +21,7 @@ const ManageScholarship = () => {
     }).then((result) => {
       if (result.isConfirmed) {
         deleteScholasrhip(slug)
-          .then(() => {
+          .finally(() => {
             Swal.fire(
               'Terhapus!',
               'Data berhasil dihapus.',

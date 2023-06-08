@@ -21,23 +21,39 @@ const AddScholarship = () => {
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
+  function validateForm() {
+    if (!title) return false
+    if (!organizer) return false
+    if (!description) return false
+    if (!deadline) return false
+    return true
+  }
+
   async function submitHandler() {
-    if (image) {
-      await addScholarshipWithImage({title, organizer, deadline, description, image})
-    } else {
-      await addScholarship({title, organizer, deadline, description})
+    if (validateForm()) {
+      if (image) {
+        await addScholarshipWithImage({title, organizer, deadline, description, image})
+      } else {
+        await addScholarship({title, organizer, deadline, description})
+      }
+      return Swal.fire({
+        title: 'Berhasil',
+        text: 'Beasiswa berhasil dibuat',
+        icon: 'success',
+        confirmButtonText: 'Ok'
+      }).then(() => {
+        navigate('/admin/scholarships')
+        getAllScholarships()
+          .then(res => {
+            dispatch(res)
+          })
+      })
     }
-    Swal.fire({
-      title: 'Berhasil',
-      text: 'Beasiswa berhasil dibuat',
-      icon: 'success',
+    return Swal.fire({
+      title: 'Gagal',
+      text: 'Pastikan semua form terisi',
+      icon: 'error',
       confirmButtonText: 'Ok'
-    }).then(() => {
-      navigate('/admin/scholarships')
-      getAllScholarships()
-        .then(res => {
-          dispatch(res)
-        })
     })
   }
 
@@ -47,7 +63,7 @@ const AddScholarship = () => {
         <h1 className='font-bold text-xl mb-8'>Tambah Beasiswa Baru</h1>
         <div className="w-1/2">
           <div className="mb-4">
-            <label htmlFor="image" className='block mb-2'>Poster</label>
+            <label htmlFor="image" className='block mb-2'>Poster (opsional)</label>
             <input type="file" id="image" onChange={onImageChange} accept="/image/*" />
           </div>
           <div className="mb-4">

@@ -31,7 +31,7 @@ const Application = () => {
     <>
       <Navbar />
       <div className="w-3/4 mx-auto">
-        <h1 className="text-xl text-center mb-16">Status Aplikasi Beasiswa</h1>
+        <h1 className="text-xl text-center mb-16">Status Permohonan Beasiswa</h1>
         <div className="text-center">
           <p>Loading...</p>
         </div>
@@ -44,9 +44,9 @@ const Application = () => {
     <>
       <Navbar />
       <div className="w-3/4 mx-auto">
-        <h1 className="text-xl text-center mb-16">Status Aplikasi Beasiswa</h1>
+        <h1 className="text-xl text-center mb-16">Status Permohonan Beasiswa</h1>
         <div className="text-center">
-          <p className='bg-yellow-200 text-yellow-800 rounded py-2'>Tidak ada aplikasi beasiswa ditemukan.</p>
+          <p className='bg-yellow-200 text-yellow-800 rounded py-2'>Tidak ada permohonan beasiswa ditemukan.</p>
         </div>
       </div>
       <Footer />
@@ -57,7 +57,7 @@ const Application = () => {
     <>
       <Navbar />
       <div className="mx-4 lg:w-3/4 lg:mx-auto">
-        <h1 className="text-xl font-bold text-center">Status Aplikasi Beasiswa</h1>
+        <h1 className="text-xl font-bold text-center">Status Permohonan Beasiswa</h1>
         <div className="my-8 overflow-x-auto border-x border-t">
           <table className="table-auto w-full">
               <thead className="border-b">

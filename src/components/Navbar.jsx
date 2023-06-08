@@ -28,7 +28,7 @@ const Navbar = () => {
         <li className='ml-4 py-2 px-2 rounded hover:bg-gray-200'><Link to={'/scholarships'}>Beasiswa</Link></li>
         { user ? (
           <>
-            <li className='ml-4 py-2 px-2 rounded hover:bg-gray-200'><Link to={'/applications'}>Aplikasi</Link></li>
+            <li className='ml-4 py-2 px-2 rounded hover:bg-gray-200'><Link to={'/applications'}>Permohonan</Link></li>
             <li className='ml-4 py-2 px-2 rounded hover:bg-gray-200 font-bold text-blue-500 decoration-solid underline box-border'><Link to={'/profile'}>{user.name || user.email}</Link></li>
           </>
         ) : (

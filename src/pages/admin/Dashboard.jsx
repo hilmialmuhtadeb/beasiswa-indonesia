@@ -37,7 +37,7 @@ const Dashboard = () => {
   return (
     <Layout>
       <div className='p-10'>
-        <h1>Selamat datang, Administrator!</h1>
+        <h1>Selamat datang, <strong>Administrator</strong>!</h1>
         <div className="grid grid-cols-4 gap-4 mt-8">
           <div className='shadow-lg w-full text-center py-8'>
             <p className='text-4xl font-bold'>{scholarships.length}</p>
@@ -46,14 +46,6 @@ const Dashboard = () => {
           <div className='shadow-lg w-full text-center py-8'>
             <p className='text-4xl font-bold'>{applications.length}</p>
             <p>Pendaftaran</p>
-          </div>
-          <div className='shadow-lg w-full text-center py-8'>
-            <p className='text-4xl font-bold'>15</p>
-            <p>Perusahaan</p>
-          </div>
-          <div className='shadow-lg w-full text-center py-8'>
-            <p className='text-4xl font-bold'>15</p>
-            <p>Universitas</p>
           </div>
         </div>
       </div>

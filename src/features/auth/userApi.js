@@ -17,11 +17,11 @@ async function addUser(user) {
 }
 
 async function updateUserProfile(user) {
-  const { avatar, resume } = user
+  const { avatar = '', resume = '' } = user
   const userDoc = await getUserByEmail(user.email)
   const date = new Date().getTime().toString()
 
-  if (avatar.name) {
+  if (!!avatar) {
     updateUserStorage({
       type: "avatar",
       file: avatar,
@@ -30,7 +30,7 @@ async function updateUserProfile(user) {
     })
   }
 
-  if (resume.name) {
+  if (!!resume) {
     updateUserStorage({
       type: "resume",
       file: resume,
@@ -40,7 +40,13 @@ async function updateUserProfile(user) {
   }
 
   const userRef = doc(db, "user", userDoc.id);
-  await updateDoc(userRef, user)
+  await updateDoc(userRef, {
+    name: user.name,
+    instance: user.instance,
+    birthDate: user.birthDate,
+    phone: user.phone,
+    gender: user.gender
+  })
   return user
 }
 

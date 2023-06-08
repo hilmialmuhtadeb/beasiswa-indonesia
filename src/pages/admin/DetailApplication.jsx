@@ -29,7 +29,7 @@ const DetailApplication = () => {
       .then(() => {
         Swal.fire({
           title: 'Berhasil',
-          text: 'Aplikasi berhasil ditolak',
+          text: 'Permohonan berhasil ditolak',
           icon: 'success',
           confirmButtonText: 'OK'
       }).then(() => window.location.reload())
@@ -53,7 +53,7 @@ const DetailApplication = () => {
       .then(() => {
         Swal.fire({
           title: 'Berhasil',
-          text: 'Aplikasi berhasil diproses',
+          text: 'Permohonan berhasil diproses',
           icon: 'success',
           confirmButtonText: 'OK'
       }).then(() => window.location.reload())
@@ -74,7 +74,7 @@ const DetailApplication = () => {
     <>
       <Layout>
         <div className='p-8'>
-          <h1 className='text-2xl font-bold mb-2'>Detail Aplikasi Beasiswa</h1>
+          <h1 className='text-2xl font-bold mb-2'>Detail Permohonan Beasiswa</h1>
           <h2 className='mb-8'>Beasiswa Pertamina 2023</h2>
           <table className='w-1/2'>
             <tr>
