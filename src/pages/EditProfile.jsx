@@ -5,10 +5,12 @@ import defaultAvatar from '../assets/images/avatar.png'
 import Navbar from '../components/Navbar'
 import { updateUserProfile } from '../features/auth/userApi'
 import Footer from '../components/Footer'
+import { useNavigate } from 'react-router-dom'
 
 const EditProfile = () => {
   const user = useSelector(state => state.auth.profile)
   const dispatch = useDispatch()
+  const navigate = useNavigate()
 
   const [name, setName] = useState('')
   const [instance, setInstance] = useState('')
@@ -18,7 +20,24 @@ const EditProfile = () => {
   const [avatar, setAvatar] = useState(null)
   const [resume, setResume] = useState(null)
 
+  function validateForm() {
+    if (!name) return false
+    if (!instance) return false
+    if (!birthDate) return false
+    if (!phone) return false
+    if (!gender) return false
+    return true
+  }
+
   async function handleSubmit() {
+    if (!validateForm()) {
+      return Swal.fire({
+        title: 'Gagal',
+        text: 'Pastikan kolom terisi! Hanya kolom avatar dan resume yang boleh kosong.',
+        icon: 'error',
+      })
+    }
+
     updateUserProfile({
       name,
       instance,
@@ -36,9 +55,15 @@ const EditProfile = () => {
           icon: 'success',
         })
         dispatch({ type: 'auth/setUserProfile', payload: {
-          ...user,
-          resume: res.resume.name,
+          name,
+          instance,
+          birthDate,
+          phone,
+          gender,
+          email: user.email,
+          resume: res?.resume?.name || 'belum ada resume',
         }})
+        return navigate('/profile')
       })
       .catch(err => {
         Swal.fire({
@@ -51,13 +76,13 @@ const EditProfile = () => {
 
   useEffect(() => {
     if (user) {
-      setAvatar(user.avatar)
-      setName(user.name)
-      setInstance(user.instance)
-      setBirthDate(user.birthDate)
-      setPhone(user.phone)
-      setGender(user.gender)
-      setResume(user.resume)
+      setAvatar(user.avatar || '')
+      setName(user.name || '')
+      setInstance(user.instance || '')
+      setBirthDate(user.birthDate || '')
+      setPhone(user.phone || '')
+      setGender(user.gender || '')
+      setResume(user.resume || '')
     }
   }, [user])
 
@@ -90,7 +115,7 @@ const EditProfile = () => {
           <div className="mb-4">
             <h2 className='font-bold'>Jenis Kelamin</h2>  
             <select id="gender" value={gender} onChange={(e) => setGender(e.target.value)} className="border border-2 border-gray-300 p-1 rounded w-full md:w-1/2">
-              <option disabled>Pilih Salah Satu</option>
+              <option>Pilih Salah Satu</option>
               <option value="male">Laki-laki</option>
               <option value="female">Perempuan</option>
             </select>

@@ -9,13 +9,26 @@ const RegisterForm = () => {
   const [password, onPasswordChange] = useInput('')
   const [name, onNameChange] = useInput('')
   const [error, setError] = React.useState(false)
+  const [errorMessage, setErrorMessage] = React.useState('')
 
   const navigate = useNavigate()
   const dispatch = useDispatch()
 
+  function validateForm() {
+    return email.length > 0 && password.length > 0 && name.length > 0
+  }
+
   const registerHandler = async () => {
+    if (!validateForm()) {
+      setError(true)
+      setErrorMessage('Gagal mendaftar, seluruh kolom harus diisi.')
+      return
+    }
+
     const user = await register({ email, password, name })
+
     setError(!user)
+    setErrorMessage('Gagal mendaftar, email sudah digunakan.')
 
     if (!user) return
     
@@ -33,7 +46,7 @@ const RegisterForm = () => {
         <input className='block box-border border border-gray-300 mb-2 text-sm py-1 px-2 rounded w-full' placeholder='Nama' type="text" value={name} onChange={onNameChange} />
         <input className='block box-border border border-gray-300 mb-2 text-sm py-1 px-2 rounded w-full' placeholder='email' type="email" value={email} onChange={onEmailChange} />
         <input className='block box-border border border-gray-300 mb-2 text-sm py-1 px-2 rounded w-full' placeholder='password' type="password" value={password} onChange={onPasswordChange} />
-        { error && <p className='text-red-500 text-sm'>Gagal mendaftar, email sudah digunakan.</p> }
+        { error && <p className='text-red-500 text-sm'>{errorMessage}</p> }
         <button className='mt-4 py-2 px-4 bg-blue-600 text-white text-sm w-full rounded' onClick={registerHandler}>Daftar</button>
       </div>
     </div>

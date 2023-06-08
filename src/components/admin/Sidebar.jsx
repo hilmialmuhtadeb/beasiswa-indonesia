@@ -15,7 +15,7 @@ const Sidebar = () => {
   
   const Menus = [
     { title: "Dashboard", src: faTableColumns, path: "/dashboard", name: "dashboard" },
-    { title: "Pendaftaran", src: faUser, gap: true, path: "/admin/registration", name: "registration" },
+    { title: "Permohonan", src: faUser, gap: true, path: "/admin/registration", name: "registration" },
     { title: "Beasiswa ", src: faBuilding, path: "/admin/scholarships", name: "scholarships" },
   ];
 
