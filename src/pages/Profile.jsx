@@ -6,7 +6,7 @@ import { logout } from '../util/auth'
 import Navbar from '../components/Navbar'
 import defaultAvatar from '../assets/images/avatar.png'
 import { getUserByEmail } from '../features/auth/userApi'
-import { requestPermission } from '../features/messaging/push-notification'
+import { isThisDeviceSubscibed, requestPermission, unsubscribe } from '../features/messaging/push-notification'
 import Footer from '../components/Footer'
 
 const Profile = () => {
@@ -15,6 +15,7 @@ const Profile = () => {
   const dispatch = useDispatch()
   const navigate = useNavigate()
   const [profile, setProfile] = useState({})
+  const [isSubscribed, setIsSubscribed] = useState(false)
 
   async function logoutHandler() {
     await logout()
@@ -23,7 +24,18 @@ const Profile = () => {
     navigate('/login')
   }
 
+  async function subscribeHandler() {
+    await requestPermission()
+    setIsSubscribed(true)
+  }
+
+  async function unsubscribeHandler() {
+    await unsubscribe()
+    setIsSubscribed(false)
+  }
+
   useEffect(() => {
+    isThisDeviceSubscibed().then(res => setIsSubscribed(res))
     if (userProfile) return setProfile(userProfile)
     if (user) {
       getUserByEmail(user.email)
@@ -53,7 +65,15 @@ const Profile = () => {
           </div>
 
           <div className="my-4">
-            <button className='bg-gray-100 hover:bg-gray-200 rounded border p-2' onClick={requestPermission}>Dapatkan Notifikasi</button>
+            { isSubscribed ? (
+              <>
+                <button disabled className='bg-gray-100 hover:bg-gray-200 rounded border p-2 cursor-not-allowed'>Sudah berlangganan</button>
+                <button className='bg-red-100 hover:bg-red-200 rounded border p-2 mx-4' onClick={unsubscribeHandler}>Berhenti Mendapat Notifikasi</button>
+              </>
+              ) : (
+                <button className='bg-blue-100 hover:bg-blue-200 rounded border p-2' onClick={subscribeHandler}>Dapatkan Notifikasi</button>
+              )
+            }
           </div>
 
           <div className="mb-4">
